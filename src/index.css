@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .custom-blend {
+    @apply bg-gradient-to-tr from-primary-200 to-accent
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: transparent;
+  position: relative;
+  text-align: center;
+  line-height: normal;
+  @apply transition-all;
+}
+
+h1 {
+  @apply text-3xl font-black;
+}
+
+h2 {
+  @apply text-[2em] font-bold;
+}
+
+.page {
+  @apply bg-base w-full;
+}

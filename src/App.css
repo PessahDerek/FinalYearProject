@@ -1,0 +1,67 @@
+
+
+button {
+    @apply w-max h-[50px] pl-[2ch] pr-[2ch] flex justify-around gap-2 rounded-md;
+    &.primary-btn {
+        @apply bg-primary text-white;
+    }
+    &.secondary-btn {
+        @apply inset-1;
+    }
+    &.outlined {
+        box-shadow: inset 0 0 0 1px;
+    }
+    &.primary-outline {
+        @apply text-primary shadow-primary;
+    }
+    &.secondary-outline {
+        @apply text-secondary shadow-secondary;
+    }
+    &.accent-outline {
+        @apply text-accent shadow-accent;
+    }
+    &.prim-text-btn {
+        @apply text-primary;
+    }
+    &.sec-text-btn {
+        @apply text-secondary
+    }
+    &.acc-text-btn {
+        @apply text-accent
+    }
+    &.white-text-btn {
+        @apply text-white;
+    }
+    &.under {
+        @apply border-solid border-t-transparent border-r-transparent border-l-transparent rounded-none border-b-white;
+    }
+    &.primary-underline {
+        @apply border-b-primary
+    }
+    &.secondary-underline {
+        @apply border-b-secondary;
+    }
+    &.accent-underline {
+        @apply border-b-accent
+    }
+    &svg {
+        margin: auto;
+    }
+    &:hover {
+        @apply bg-opacity-90;
+    }
+}
+
+.page {
+    @apply w-full min-h-[calc(100vh-60px)] bg-base ;
+}
+.quick-card {
+    @apply p-4 max-w-md min-w-min w-full flex-1 text-center flex flex-col min-h-[20vh] rounded-md ;
+    span {
+        @apply w-full flex justify-center m-auto;
+        & *{
+            @apply self-end;
+        }
+    }
+}
+
