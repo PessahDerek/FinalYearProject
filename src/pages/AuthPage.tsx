@@ -19,20 +19,21 @@ export default function AuthPage(){
         const signupData: SignupDetails = {
             firstName: form.get("firstName")?.toString()??"",
             lastName: form.get("lastName")?.toString()??"",
-            email: form.get("lastName")?.toString()??"",
+            email: form.get("email")?.toString()??"",
             phone: form.get("phone")?.toString()??"",
             password: form.get("password")?.toString()??"",
             confirmPassword: form.get("password")?.toString()??"",
+            role: "member"
         }
         if(login) return signIn(loginData)
         return signup(signupData)
     }
 
     return (
-        <div className={"w-full h-screen flex custom-blend page"}>
+        <div className={"w-full min-h-screen flex custom-blend page"}>
             <form
                 onSubmit={handleSubmit}
-                className={"w-[90%] min-w-[300px] grid auto-rows-max gap-2 bg-white rounded-sm p-4 m-auto md:absolute md:right-0 md:w-1/3 md:h-full "}
+                className={"w-[90%] min-w-[300px] grid auto-rows-max gap-2 bg-white rounded-sm p-4 m-auto md:absolute md:right-0 md:w-1/3 md:h-full md:top-0 "}
             >
                 <span className={"text-4xl font-black"}>{login ? "Login" : "Signup"}</span>
                 <div className={"grid md:grid-cols-2 gap-2"}>
@@ -64,13 +65,29 @@ export default function AuthPage(){
                             required={true}/>
                     }
                     <TextInput
+                        id={'pwd_auth'}
                         label={"Password"}
                         name={"password"}
+                        type={'password'}
                         required={true}/>
                     {!login &&
                         <TextInput
                             label={"Confirm password"}
                             name={"confirmPassword"}
+                            onChange={e=>{
+                                const passwd = document.getElementById("pwd_auth") as HTMLInputElement
+                                if(passwd && ((e.target.value.length >= passwd.value.length) && e.target.value !== passwd.value)) {
+                                    e.target.style.borderBottomColor='#DF2935'
+                                    e.target.style.color="#DF2935"
+                                    e.target.setCustomValidity("Doesn't match with password")
+                                    e.target.reportValidity();
+                                } else {
+                                    e.target.style.borderBottomColor="#9B5DE5"
+                                    e.target.style.color="#0A2647"
+                                    e.target.setCustomValidity("")
+                                }
+                            }}
+                            type={'password'}
                             required={true}/>
                     }
                 </div>

@@ -15,7 +15,7 @@ export default function Button({text, spin, kind, icon,...rest}: btnProps) {
     const style: { [key in btnType]: string } = {
         "prim": "primary-btn",
         "sec": "secondary-btn",
-        "red": "danger-btn",
+        "acc": "accent-btn",
         "outline": "outlined primary-outline",
         "out-sec": "outlined secondary-outline",
         "out-acc": "outlined accent-outline",
@@ -32,16 +32,16 @@ export default function Button({text, spin, kind, icon,...rest}: btnProps) {
         <button
             {...rest}
             type={rest.type ? rest.type : "button"}
-            className={`${style[kind ?? "prim"]} ${rest.className??""}`}
+            className={`pl-4 pr-4 ${style[kind ?? "prim"]} ${rest.className??""}`}
         >
-            <span className={"m-auto flex gap-2"}>
+            <span className={"w-[80%] min-w-max m-auto flex justify-between gap-2"}>
+                {Icon &&
+                    <Icon className={"m-auto"}/>
+                }
                 {spin ?
                     <CgSpinner className={"animate-spin"}/>
                     :
-                    text
-                }
-                {Icon &&
-                    <Icon className={"m-auto"}/>
+                    <span className={"flex-1 line-clamp-2 text-left"}>{text}</span>
                 }
             </span>
         </button>

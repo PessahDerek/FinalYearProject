@@ -3,6 +3,7 @@ import {PathObj} from "../../vite-env";
 import {useLocation, useNavigate} from "react-router-dom";
 import AOS from 'aos'
 import Button from "../buttons/Button.tsx";
+import {activePath} from "../../utils/functions/shortFunctions.ts";
 
 interface props {
     paths: PathObj[];
@@ -24,10 +25,6 @@ export default function NavigationSet({paths}: props) {
         }
     }, [dropped])
 
-    const active = (path: string="/") => {
-        if(path === "/" && (pathname === path)) return true
-        return pathname.replace("/", "").includes(path)
-    }
 
     const handleClick = (path: PathObj) => {
         if(path.action) return path.action()
@@ -41,11 +38,11 @@ export default function NavigationSet({paths}: props) {
                     (path, i) =>
                         <Button
                             text={path.name}
-                            kind={active(path.path)?"acc-text-btn":"white-text-btn"}
+                            kind={activePath(path.path, pathname)?"acc-text-btn":"white-text-btn"}
                             key={i}
                             icon={path.icon}
                             onClick={()=>handleClick(path)}
-                            className={`pl-4 pr-4 ${active(path.path)?"under":""}`}
+                            className={`pl-4 pr-4 ${activePath(path.path, pathname)?"under":""}`}
                         />
                 )
                 }

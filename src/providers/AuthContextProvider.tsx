@@ -4,11 +4,12 @@ import {handleLogin, handleSignup} from "../utils/functions/auth/auth";
 import {UserProfile, AuthContextObj, AuthResponse, } from "../vite-env";
 import {AxiosError, AxiosResponse} from "axios";
 
-const defaultUser: UserProfile = {
+export const defaultUser: UserProfile = {
     firstName: "",
     lastName: "",
     email: "",
-    phone: ""
+    phone: "",
+    role: "member"
 }
 
 export const AuthContext = createContext<AuthContextObj>({
@@ -17,6 +18,7 @@ export const AuthContext = createContext<AuthContextObj>({
     loggedIn: false,
     signIn: async ()=>new Promise(()=>({profile: defaultUser, message: "", token: ""})),
     signup: async ()=>new Promise(()=>({profile: defaultUser, message: "", token: ""})),
+    signOut: () => {}
 })
 
 export default function AuthContextProvider({children}:{children: React.ReactNode}){
@@ -61,10 +63,16 @@ export default function AuthContextProvider({children}:{children: React.ReactNod
         onError: (err: AxiosError)=>alert(err.response?.statusText)
     })
 
+    const handleSignOut = () => {
+        localStorage.removeItem("uToken")
+        localStorage.removeItem("utProfile")
+        setProfileString(null)
+        setIsLoggedIn(false)
+    }
+
     useEffect(()=>{ // update profile string
         // update is logged in
         if(!isLoggedIn) {
-
             setIsLoggedIn(!!localStorage.getItem("uToken"))
             setProfileString(localStorage.getItem("utProfile"))
         }
@@ -74,9 +82,10 @@ export default function AuthContextProvider({children}:{children: React.ReactNod
         <AuthContext.Provider value={{
             signup: signup.mutate,
             signIn: login.mutate,
+            signOut: handleSignOut,
             loggedIn: isLoggedIn,
             profile: userProfile,
-            isSigningIn: signup.isPending || login.isPending
+            isSigningIn: signup.isPending || login.isPending,
         }} >
             {children}
         </AuthContext.Provider>

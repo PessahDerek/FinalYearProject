@@ -1,16 +1,27 @@
 import {PathObj} from "../../vite-env";
-import {RiAccountCircleFill, RiDashboardFill} from "react-icons/ri";
+import {RiAccountCircleFill, RiAdminFill, RiDashboardFill} from "react-icons/ri";
 import NavigationSet from "./NavigationSet.tsx";
 import {MdAttachMoney} from "react-icons/md";
 import {HiUserGroup} from "react-icons/hi";
+import {useContext, useMemo} from "react";
+import {AuthContext} from "../../providers/AuthContextProvider.tsx";
 
 export default function AppNavBar() {
-    const paths:PathObj[] = [
-        {name: "Dashboard", path: "/", icon: RiDashboardFill},
-        {name: "My Finance", path: "/loans", icon: MdAttachMoney},
-        {name: "Chama", path: "/chama", icon: HiUserGroup},
-        {name: "Profile", path: "/profile", icon: RiAccountCircleFill},
-    ]
+    const { profile } = useContext(AuthContext)
+
+    const paths = useMemo(()=> {
+        const defaultPaths: PathObj[] = [
+            {name: "Dashboard", path: "/", icon: RiDashboardFill},
+            {name: "My Finance", path: "/my-finance", icon: MdAttachMoney},
+            {name: "Chama", path: "/chama", icon: HiUserGroup},
+            {name: "Profile", path: "/profile", icon: RiAccountCircleFill},
+        ]
+        if(profile?.role === 'admin') defaultPaths.push(
+            {name: "Admin", path: "/admin/", icon: RiAdminFill}
+        )
+        return defaultPaths;
+    }, [profile]);
+
     return (
         <nav
             className={"w-full h-[60px] text-white sticky top-0 z-50 bg-gradient-to-r from-primary to-90% to-secondary md:to-secondary-800 " +

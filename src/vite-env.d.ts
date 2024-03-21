@@ -18,11 +18,15 @@ declare type PathObj = {
     }
     )
 
+declare type Role = 'admin' | 'member';
+
 declare interface UserProfile {
+    _id?: string;
     firstName: string;
     lastName: string;
     phone: string;
     email: string;
+    role: Role;
 }
 declare interface LoginDetails {
     identifier: string ; // name | phone | email
@@ -43,11 +47,16 @@ declare interface AuthContextObj {
     isSigningIn: boolean;
     signIn: (details: LoginDetails) =>void;
     signup: (details: SignupDetails)=>void;
+    signOut: () => void;
 }
-declare type btnType = "prim"|"sec"|"red"|"outline"|"out-sec"|"out-acc"|"prim-text-btn"|"sec-text-btn"|"acc-text-btn"
+declare type btnType = "prim"|"sec"|"acc"|"outline"|"out-sec"|"out-acc"|"prim-text-btn"|"sec-text-btn"|"acc-text-btn"
     |"white-text-btn" | "prim-under" | "sec-under" | "acc-under"
 
-declare interface LoanModel {
+declare interface LoanHistory {
+    amount: number;
+    date: string;
+}
+declare interface LoanModel extends Document {
     _id: string;
     userId: string;
     principal: number;
@@ -57,6 +66,10 @@ declare interface LoanModel {
     penaltyRate: number; // is percentage
     paid: boolean;
     approved: boolean;
+    pending: boolean;
+    defaulted: boolean;
+    history: LoanHistory[];
+    createdAt: Date;
 }
 
 declare type ShareUpdateMode = 'debit'|'credit'
@@ -67,25 +80,50 @@ declare interface ShareHistory {
     mode: ShareUpdateMode;
 }
 declare interface ShareModel {
+    _id: string;
     member: UserProfile;
     realValue: number;
     history: ShareHistory[];
 }
 
+
 declare interface MyDataResponse {
     unpaidLoans: LoanModel[];
     paidLoans: LoanModel[];
+    pendingLoans: LoanModel[];
     shares: ShareModel|null
 }
 declare interface ChamaDataResponse{
-    unpaidLoans: LoanModel[],
-    paidLoans: LoanModel[],
-    members: UserProfile[]
-    shares: number
+    unpaidLoans: LoanModel[];
+    paidLoans: LoanModel[];
+    pendingLoans: LoanModel[];
+    members: UserProfile[];
+    shares: ShareModel[];
+    totalShares: number;
+    unverified: UserProfile[]
 }
 
 declare interface AppDataContextObj {
     myData: MyDataResponse;
     chamaData: ChamaDataResponse
     fetching: boolean;
+}
+
+declare interface ChamaModel{
+    name: string;
+    interestRate: number;
+    penaltyRate: number;
+    members: UserProfile[];
+    loans: LoanModel[];
+    shares: ShareModel[];
+}
+declare interface RepayObj {
+    loanId: string;
+    userId: string;
+    amount: number;
+}
+declare interface ShareUpdate {
+    shareId: string;
+    amount: number;
+    mode: 'credit' | 'debit';
 }

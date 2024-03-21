@@ -12,6 +12,7 @@
   margin: 0;
   padding: 0;
   border: transparent;
+  outline: transparent;
   position: relative;
   text-align: center;
   line-height: normal;
@@ -27,5 +28,5 @@ h2 {
 }
 
 .page {
-  @apply bg-base w-full;
+  @apply bg-base w-full h-full p-2;
 }
