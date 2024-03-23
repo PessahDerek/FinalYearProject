@@ -31,8 +31,9 @@ export default function useUpdateShares() {
     const mutate = useMutation({
         mutationKey: ['shares'],
         mutationFn: ():Promise<AxiosResponse> => new Promise((resolve, reject) => {
+            const list = updateList.filter(ul => ul.amount > 0);
             api.post('/admin/update-shares', {
-                list: updateList
+                list: list
             })
                 .then(result => resolve(result))
                 .catch(err => reject(err))

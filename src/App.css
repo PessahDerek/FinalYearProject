@@ -103,6 +103,34 @@ table {
         }
     }
 }
+.custom-table {
+    @apply w-full grid ;
+    & .header {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 70px 70px;
+        @apply grid grid-flow-col h-[50px] leading-[50px] bg-gradient-to-r from-accent-100 via-10% to-blue-100 text-accent-800 font-bold;
+        span {
+            @apply w-full truncate leading-[50px];
+        }
+    }
+    & .t-body {
+        @apply grid grid-flow-col h-[50px];
+        & .parent-row {
+            @apply grid gap-2 bg-white;
+            & .row {
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr 70px 70px;
+                @apply w-full grid grid-flow-col auto-cols-fr bg-white;
+                span {
+                    @apply w-full h-[50px] text-center truncate leading-[50px] ;
+                }
+            }
+        }
+    }
+}
+textarea {
+    height: auto;
+    padding: 5px !important;
+    @apply w-full min-h-[20vh] rounded-md text-left p-4 ;
+}
 .page {
     @apply w-full min-h-[calc(100vh-60px)] bg-base ;
 }
