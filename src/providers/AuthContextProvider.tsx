@@ -3,6 +3,7 @@ import {useMutation} from "@tanstack/react-query";
 import {handleLogin, handleSignup} from "../utils/functions/auth/auth";
 import {UserProfile, AuthContextObj, AuthResponse, } from "../vite-env";
 import {AxiosError, AxiosResponse} from "axios";
+import api from "../utils/instances/axios.ts";
 
 export const defaultUser: UserProfile = {
     firstName: "",
@@ -18,7 +19,7 @@ export const AuthContext = createContext<AuthContextObj>({
     loggedIn: false,
     signIn: async ()=>new Promise(()=>({profile: defaultUser, message: "", token: ""})),
     signup: async ()=>new Promise(()=>({profile: defaultUser, message: "", token: ""})),
-    signOut: () => {}
+    signOut: () => {},
 })
 
 export default function AuthContextProvider({children}:{children: React.ReactNode}){
@@ -44,7 +45,6 @@ export default function AuthContextProvider({children}:{children: React.ReactNod
         // update as logged in
         setIsLoggedIn(true)
         //update profile
-        console.log("Profile is: ")
         const profile = JSON.stringify(data.profile)
         localStorage.setItem("utProfile", profile)
         setProfileString(profile)
@@ -78,6 +78,18 @@ export default function AuthContextProvider({children}:{children: React.ReactNod
         }
     }, [isLoggedIn, profileString])
 
+    const profile = useMutation({
+        mutationKey: ['profile'],
+        mutationFn: (data: UserProfile)=>{
+            return new Promise((resolve, reject)=>{
+                api.put('/member/edit-profile', data)
+                    .then(res=>resolve(res))
+                    .catch(err => reject(err))
+            })
+        },
+        onError: (err: AxiosError)=>alert(("response" in err) ? err?.response?.statusText : err.message)
+    })
+
     return (
         <AuthContext.Provider value={{
             signup: signup.mutate,
@@ -86,6 +98,7 @@ export default function AuthContextProvider({children}:{children: React.ReactNod
             loggedIn: isLoggedIn,
             profile: userProfile,
             isSigningIn: signup.isPending || login.isPending,
+            editProfile: profile
         }} >
             {children}
         </AuthContext.Provider>

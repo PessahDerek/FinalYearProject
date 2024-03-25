@@ -2,6 +2,7 @@
 
 import {IconType} from "react-icons";
 import {decl} from "postcss";
+import {UseMutationResult} from "@tanstack/react-query";
 
 
 declare type PathObj = {
@@ -48,6 +49,7 @@ declare interface AuthContextObj {
     signIn: (details: LoginDetails) =>void;
     signup: (details: SignupDetails)=>void;
     signOut: () => void;
+    editProfile?: UseMutationResult<unknown, Error, UserProfile, unknown>;
 }
 declare type btnType = "prim"|"sec"|"acc"|"outline"|"out-sec"|"out-acc"|"prim-text-btn"|"sec-text-btn"|"acc-text-btn"
     |"white-text-btn" | "prim-under" | "sec-under" | "acc-under"

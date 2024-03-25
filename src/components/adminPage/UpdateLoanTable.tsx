@@ -34,7 +34,7 @@ export default function UpdateLoanTable(){
                 {repayList.length>0 && unpaidLoans.map((loan, i)=><tr key={i}>
                     <td>{getLoanee(loan.userId).firstName}</td>
                     <td>{commarise(loan.principal+loan.value)}</td>
-                    <td>{daysDiff(loan.deadline.toString())}</td>
+                    <td>{daysDiff(loan.deadline.toString()).text}</td>
                     <td>Ksh.{commarise((loan.principal+loan.value)-totalRepaid([loan]))}</td>
                     <td>
                         <TextInput
@@ -58,7 +58,7 @@ export default function UpdateLoanTable(){
             <Button
                 disabled={repayList.filter(r=>r.amount>0).length < 1}
                 kind={"sec"}
-                text={"Submit approval"}
+                text={"Save changes"}
                 onClick={()=>mutate.mutate()}
                 spin={mutate.isPending}
                 className={'sticky top-[90%]'}

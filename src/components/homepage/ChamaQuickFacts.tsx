@@ -22,7 +22,7 @@ export default function ChamaQuickFacts() {
         <CgSpinner className={"animate-spin m-auto duration-75"}/>
     </div>
     return (
-        <div className={"flex-1 bg-base-200 p-4 rounded-md m-auto"}>
+        <div className={"flex-1 grid gap-2 bg-base-200 p-4 rounded-md m-auto"}>
             <h1>Umoja Teachers</h1>
             <span className={"w-full flex flex-wrap gap-2"}>
                 <div className={"quick-card bg-white"}>

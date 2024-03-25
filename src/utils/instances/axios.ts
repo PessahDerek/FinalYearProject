@@ -22,7 +22,7 @@ api.interceptors.response.use((config) => {
     if(denied){
         // log them out
         delete error.response?.headers['denied_admission']
-        setTimeout(()=>localStorage.removeItem("uToken"), 50000);
+        setTimeout(()=>localStorage.removeItem("uToken"), 5000);
     }
     return Promise.reject(error)
 })

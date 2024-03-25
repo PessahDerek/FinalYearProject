@@ -30,7 +30,7 @@ export default function useMemberManagement(){
     })
     const reject = useMutation({
         mutationKey: ['members'],
-        mutationFn: (userId: string):Promise<AxiosResponse>=>new Promise((resolve, reject)=>{
+        mutationFn: ({userId}: {userId: string}):Promise<AxiosResponse>=>new Promise((resolve, reject)=>{
             api.delete(`/admin/approve-member/${userId}`)
                 .then(res => resolve(res))
                 .catch(err => reject(err))

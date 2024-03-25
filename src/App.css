@@ -62,9 +62,12 @@ button {
 }
 input {
     outline: transparent;
-    @apply w-full h-[50px] indent-2 border-solid border-transparent border-b border-b-primary-50 bg-transparent text-left outline-transparent;
+    @apply w-full h-[50px] text-primary indent-2 border-solid border-transparent border-b border-b-primary-50 bg-transparent text-left outline-transparent;
     &:focus{
         @apply bg-transparent border-b-accent ;
+    }
+    &:disabled {
+        @apply text-gray-400
     }
     &[type='checkbox']{
         width: 20px;
@@ -78,7 +81,7 @@ input {
 }
 table {
     input {
-        height: 20px;
+        height: 40px;
         margin: auto 0 auto 0;
         text-align: center;
         @apply text-center disabled:text-gray-300;
@@ -101,6 +104,31 @@ table {
             @apply bg-white text-center w-full ;
             border-bottom: 1px solid gray;
         }
+    }
+}
+a {
+    /*@apply text-sec;*/
+    color: rgb(38 196 133) !important;
+    &:hover{
+        color: rgb(20,102,169) !important;
+    }
+    & :visited {
+        color: rgb(98 29 181) !important;
+    }
+}
+.financial-statement-tb {
+    @apply w-full rounded-lg flex overflow-hidden shadow-sm;
+    th, td {
+        @apply w-full h-[50px] leading-[50px] text-left pl-2  pr-4;
+    }
+    th {
+        /*height: 50px;*/
+    }
+    tbody{
+        @apply w-full h-full;
+    }
+    thead {
+        @apply h-max;
     }
 }
 .custom-table {

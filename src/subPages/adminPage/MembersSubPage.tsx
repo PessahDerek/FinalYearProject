@@ -1,16 +1,11 @@
 import useMemberManagement from "../../hooks/useMemberManagement.ts";
-import React from "react";
 import {CgSpinner} from "react-icons/cg";
 
 
 export default function MembersSubPage() {
-    const {unverified, approve} = useMemberManagement();
+    const {unverified, approve, reject} = useMemberManagement();
     // userId, initialShare, approved, role, denialReason
 
-    const reject = (userId: string, e: React.ChangeEvent<HTMLInputElement>) => {
-
-
-    }
 
     return (
         <div className={"w-full flex-1 grid gap-2 auto-rows-max"}>
@@ -48,6 +43,7 @@ export default function MembersSubPage() {
                                     <input
                                         type={'checkbox'}
                                         className={'!text-center'}
+                                        disabled={approve.isPending || reject.isPending}
                                         onClick={e=>{
                                             approve.mutate({userId: unv._id??""})
                                             e.currentTarget.checked = !approve.isError
@@ -55,11 +51,14 @@ export default function MembersSubPage() {
                                     />
                                 </span>
                                 <span>
-                                    {<CgSpinner className={"absolute animate-spin m-auto left-0 right-0 z-10 top-0 bottom-0"}/>}
+                                    {reject.isPending && <CgSpinner className={"absolute animate-spin m-auto left-0 right-0 z-10 top-0 bottom-0"}/>}
                                     <input
                                         type={'checkbox'}
-                                        disabled={approve.isPending}
-                                        onChange={e=>reject(unv._id??"", e)}
+                                        disabled={approve.isPending || reject.isPending || reject.isSuccess}
+                                        onChange={e=>{
+                                            reject.mutate({userId: unv._id??""})
+                                            e.currentTarget.checked = !reject.isError
+                                        }}
                                     />
                                 </span>
                             </span>

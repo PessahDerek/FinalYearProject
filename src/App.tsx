@@ -12,6 +12,7 @@ import MyFinancesPage from "./pages/MyFinancesPage.tsx";
 import LostPage from "./pages/LostPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
+import ChamaPage from "./pages/ChamaPage.tsx";
 
 function App() {
     const {loggedIn} = useContext(AuthContext);
@@ -30,6 +31,7 @@ function App() {
                     <Route path={"/my-finance"} element={<MyFinancesPage />}/>
                     <Route path={"/profile"} element={<ProfilePage />}/>
                     <Route path={"/admin/*"} element={<AdminPage />} />
+                    <Route path={"/chama/*"} element={<ChamaPage />} />
                     <Route path={"/*"} element={<LostPage />} />
                 </Routes>
             </main>

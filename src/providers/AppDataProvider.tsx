@@ -1,7 +1,8 @@
-import React, {createContext} from "react";
-import {AppDataContextObj, ChamaDataResponse, MyDataResponse} from "../vite-env";
+import React, {createContext, useEffect, useMemo} from "react";
+import {AppDataContextObj, ChamaDataResponse, MyDataResponse, ShareModel} from "../vite-env";
 import {useQuery} from "@tanstack/react-query";
 import {fetchMyData} from "../utils/functions/handlers/fetchData.ts";
+import {sumShareValue} from "../utils/functions/shortFunctions.ts";
 
 const defaults: AppDataContextObj = {
     myData: {
@@ -37,12 +38,29 @@ export function AppDataProvider({children}:{children: React.ReactNode}){
         queryFn:()=>fetchMyData("/chama/chama-data"),
         initialData: defaults.chamaData,
         // retryOnMount: true,
-        retryDelay: 30000
+        retryDelay: 30000,
     })
+
+    useEffect(()=>{
+
+    })
+
+    const chama_Data = useMemo(()=>{
+        const result = chamaData.data;
+        if((result as ChamaDataResponse).shares){
+            result.shares = (result.shares as ShareModel[]).map(res => {
+                res.realValue = sumShareValue(res.history);
+                return res;
+            })
+        }
+        console.log(result?.shares)
+        return result as ChamaDataResponse;
+    }, [chamaData.data])
 
     return <AppDataContext.Provider value={{
         myData: {...myData.data as MyDataResponse},
-        chamaData: {...chamaData.data as ChamaDataResponse},
+        // chamaData: {...chamaData.data as ChamaDataResponse},
+        chamaData: {...chama_Data},
         fetching: myData.isFetching
     }} >
         {children}

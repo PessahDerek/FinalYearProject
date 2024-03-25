@@ -5,8 +5,8 @@ import RequestLoanForm from "../components/myFinancesPage/RequestLoanForm.tsx";
 export default function MyFinancesPage(){
 
     return (
-        <div className={"page flex "} >
-            <div className={"w-full max-w-4xl flex gap-4 flex-wrap m-auto"}>
+        <div className={"flex page "} >
+            <div className={"w-full flex gap-4 flex-wrap m-auto"}>
                 <MyQuickStats />
                 <div className={"flex-1"}>
                     <RequestLoanForm />

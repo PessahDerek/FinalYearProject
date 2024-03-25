@@ -52,12 +52,12 @@ export default function useLoanees(){
 
     const pendingLoans: LoanModel[] = useMemo(()=>{
         if(!isFetched && allLoans.length < 1) return []
-        return allLoans.filter(l => l.pending)
+        return allLoans.filter(l => l.pending || !l.approved)
     }, [allLoans, isFetched])
 
     const unpaidLoans: LoanModel[] = useMemo(()=>{
         if(!isFetched && allLoans.length < 1) return []
-        return allLoans.filter(l => !l.paid)
+        return allLoans.filter(l => !l.paid && l.approved)
     }, [allLoans, isFetched])
 
     const overdueLoans: LoanModel[] = useMemo(()=>{

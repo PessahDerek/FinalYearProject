@@ -1,6 +1,7 @@
 import useUpdateShares from "../../hooks/useUpdateShares.ts";
 import TextInput from "../../uiComponents/inputs/TextInput.tsx";
 import Button from "../../uiComponents/buttons/Button.tsx";
+import {commarise, sumShareValue} from "../../utils/functions/shortFunctions.ts";
 
 
 export default function UpdateShareSubPage(){
@@ -19,7 +20,7 @@ export default function UpdateShareSubPage(){
                 {updateList.length > 0 &&
                     shares.map((share, i)=><tr key={share.member._id}>
                     <td>{share.member.firstName}</td>
-                    <td>{share.realValue}</td>
+                    <td>{commarise(sumShareValue(share.history))}</td>
                     <td>
                         <TextInput
                             type={'number'}
