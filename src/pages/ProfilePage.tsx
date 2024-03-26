@@ -1,5 +1,5 @@
 import TextInput from "../uiComponents/inputs/TextInput.tsx";
-import React, {useContext, useMemo, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import {AuthContext, defaultUser} from "../providers/AuthContextProvider.tsx";
 import Button from "../uiComponents/buttons/Button.tsx";
 import {BsPencil} from "react-icons/bs";
@@ -12,7 +12,7 @@ export default function ProfilePage() {
     const {profile, editProfile, signOut} = useContext(AuthContext);
     const [edit, setEdit] = useState(false)
     const [edited, setEdited] = useState<UserProfile>({
-        ...profile??{
+        ...profile ?? {
             firstName: "",
             lastName: "",
             phone: "",
@@ -20,25 +20,29 @@ export default function ProfilePage() {
             role: "member"
         }
     })
-    const myProfile = useMemo(()=>{
-        if(edit) return edited;
-        if(!profile) return defaultUser
+    const myProfile = useMemo(() => {
+        if (edit) return edited;
+        if (!profile) return defaultUser
         return profile;
     }, [edit, edited, profile])
     const change = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEdited(prev=>({...prev, [e.target.name]:e.target.value}))
+        setEdited(prev => ({...prev, [e.target.name]: e.target.value}))
     }
     const handleSignout = () => {
         const proceed = window.confirm("Are you sure you want to sign out? You will be logged out")
-        if(proceed) return signOut()
+        if (proceed) return signOut()
     }
     const handleEdit = () => {
-        if(!edit) return setEdit(true)
+        if (!edit) return setEdit(true)
         editProfile?.mutate(myProfile)
     }
     const handleCancel = () => {
         setEdit(false)
     }
+
+    useEffect(() => {
+        if(editProfile?.isSuccess && editProfile.isIdle) setEdit(false)
+    }, [editProfile?.isIdle, editProfile?.isSuccess]);
 
     return (
         <div className={"page"}>
@@ -76,21 +80,22 @@ export default function ProfilePage() {
                         onChange={change}
                     />
                     <Button
-                        kind={edit?"sec":"out-acc"}
-                        text={edit ? "Save":"Edit"}
+                        kind={edit ? "sec" : "out-acc"}
+                        text={edit ? "Save" : "Edit"}
                         icon={BsPencil}
                         onClick={handleEdit}
                         spin={editProfile?.isPending}
                         disabled={editProfile?.isPending}
                         className={"w-full"}
                     />
-                    {edit && <Button
-                        kind={"prim-text-btn"}
-                        text={"Cancel"}
-                        icon={RxCross1}
-                        onClick={handleCancel}
-                        className={"w-full !text-red"}
-                    />}
+                    {(edit && !editProfile?.isSuccess) &&
+                        <Button
+                            kind={"prim-text-btn"}
+                            text={"Cancel"}
+                            icon={RxCross1}
+                            onClick={handleCancel}
+                            className={"w-full !text-red"}
+                        />}
                 </form>
                 <div className={"flex-1 grid gap-2 "}>
                     <form className={"w-full h-max grid auto-rows-max bg-base-300 p-4 gap-2 grid-flow-row"}>

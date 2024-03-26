@@ -54,7 +54,7 @@ export default function AuthContextProvider({children}:{children: React.ReactNod
         mutationKey: ['auth'],
         mutationFn: handleSignup,
         onSuccess: handleAuthSuccess,
-        onError: (err: AxiosError)=>alert(err.response?.statusText)
+        onError: (err: AxiosError)=>alert(err.response?.statusText),
     })
     const login = useMutation({
         mutationKey: ['auth'],
@@ -80,12 +80,18 @@ export default function AuthContextProvider({children}:{children: React.ReactNod
 
     const profile = useMutation({
         mutationKey: ['profile'],
-        mutationFn: (data: UserProfile)=>{
+        mutationFn: (data: UserProfile):Promise<AxiosResponse>=>{
             return new Promise((resolve, reject)=>{
                 api.put('/member/edit-profile', data)
                     .then(res=>resolve(res))
                     .catch(err => reject(err))
             })
+        },
+        onSuccess:({data, statusText})=>{
+            console.log("PRof: ", data)
+            localStorage.setItem("utProfile", JSON.stringify(data))
+            setProfileString(JSON.stringify(data))
+            alert(statusText)
         },
         onError: (err: AxiosError)=>alert(("response" in err) ? err?.response?.statusText : err.message)
     })

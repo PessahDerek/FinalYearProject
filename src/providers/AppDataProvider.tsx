@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useMemo} from "react";
+import React, {createContext, useMemo} from "react";
 import {AppDataContextObj, ChamaDataResponse, MyDataResponse, ShareModel} from "../vite-env";
 import {useQuery} from "@tanstack/react-query";
 import {fetchMyData} from "../utils/functions/handlers/fetchData.ts";
@@ -31,6 +31,7 @@ export function AppDataProvider({children}:{children: React.ReactNode}){
         queryFn: ()=>fetchMyData("/member/my-data"),
         initialData: defaults.myData,
         // retryOnMount: true,
+        retry: true,
         retryDelay: 30000
     })
     const chamaData = useQuery({
@@ -38,11 +39,8 @@ export function AppDataProvider({children}:{children: React.ReactNode}){
         queryFn:()=>fetchMyData("/chama/chama-data"),
         initialData: defaults.chamaData,
         // retryOnMount: true,
+        retry: true,
         retryDelay: 30000,
-    })
-
-    useEffect(()=>{
-
     })
 
     const chama_Data = useMemo(()=>{
@@ -53,7 +51,6 @@ export function AppDataProvider({children}:{children: React.ReactNode}){
                 return res;
             })
         }
-        console.log(result?.shares)
         return result as ChamaDataResponse;
     }, [chamaData.data])
 
