@@ -13,6 +13,8 @@ export default function PendingLoanTable() {
 
     const hasPending = (userId: string) => unpaidLoans.reduce((acc, curr) => acc + ((!curr.paid && curr.userId === userId && !curr.pending && curr.approved) ? (curr.principal + curr.value) : 0), 0);
 
+    console.log("wtf: ", pendingLoans)
+
     const approve = (id: string) => {
         const list = [...new Set([...approvalList, id])]
         const denial = denialList.filter(p => p !== id)
